@@ -6,6 +6,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Psychologists",
   description: "Psychologists directory and booking app",
+  icons: {
+    icon: "/brain-svgrepo-com.svg",
+  },
 };
 
 export default function RootLayout({
