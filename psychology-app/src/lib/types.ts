@@ -1,5 +1,5 @@
 export interface User {
-  id: number;
+  uid: string;
   name: string;
   email: string;
   favorites: string[];
@@ -12,7 +12,7 @@ export interface Review {
 }
 
 export interface Psychologist {
-  id: number;
+  id: string;
   name: string;
   avatar_url: string;
   experience: string;
