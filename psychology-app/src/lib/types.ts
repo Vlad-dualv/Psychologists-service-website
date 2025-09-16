@@ -24,3 +24,9 @@ export interface Psychologist {
   initial_consultation: string;
   about: string;
 }
+
+export type Inputs = {
+  name: string;
+  email: string;
+  password: string;
+};
