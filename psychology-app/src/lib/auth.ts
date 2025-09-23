@@ -10,6 +10,8 @@ import { ref, set } from "firebase/database";
 import { auth, database } from "./firebase";
 import { RegisterFormData, LoginFormData } from "./validationSchemas";
 
+
+// Register user
 export const registerUser = async (userData: RegisterFormData) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -31,10 +33,38 @@ export const registerUser = async (userData: RegisterFormData) => {
     });
     return user;
   } catch (error) {
-    console.error("Error registering user:", error);
-    throw new Error(getAuthErrorMessage(error.code));
+    console.error("Registration error:", error);
+    const errorCode = (error as { code?: string })?.code ?? "unknown";
+    throw new Error(getAuthErrorMessage(errorCode));
   }
 };
+
+// Login user
+
+export const loginUser = async (UserData: LoginFormData) => {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, UserData.email, UserData.password);
+    return userCredential.user;
+  } catch (error) {
+    console.error("Login error:", error)
+    const errorCode = (error as { code?: string })?.code ?? "unknown";
+    throw new Error(getAuthErrorMessage(errorCode))
+  }
+}
+
+// Logout user
+
+export const logoutUser = async () => {
+  try {
+    await signOut(auth)
+  } catch (error) {
+    console.error("Logout error:", error)
+    
+    throw new Error("Failed to logout. Please try again.")
+  }
+}
+
+// Auth Error Messages
 
 const getAuthErrorMessage = (errorCode: string): string => {
   switch (errorCode) {
