@@ -1,10 +1,10 @@
 "use client"
 
 import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useAuth } from "@/context/AuthContext";
-import { registerSchema, loginSchema, RegisterFormData } from "@/lib/validationSchemas";
+import { registerSchema, RegisterFormData } from "@/lib/validationSchemas";
 
 interface RegisterFormProps {
   onSuccess: () => void;
@@ -24,7 +24,7 @@ export default function RegisterForm({onSuccess, onSwitchToLogin}: RegisterFormP
     reset,
   } = useForm<RegisterFormData>({
     resolver: yupResolver(registerSchema),
-    mode: "onChange"
+    mode: "onSubmit"
   })
 
   const onSubmit = async (data: RegisterFormData) => {
@@ -54,11 +54,23 @@ export default function RegisterForm({onSuccess, onSwitchToLogin}: RegisterFormP
         need some information. Please provide us with the following information
       </p>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input id="name" type="text" placeholder="Name"/>
-        <input id="email" type="email" placeholder="Email"/>
+        <input id="name" type="text" placeholder="Name" {...register("name")}/>
+        {errors.name && (
+          <p>{errors.name.message}</p>
+        )}
+        <input id="email" type="email" placeholder="Email" {...register("email")}/>
+        {errors.email && (
+          <p>{errors.email.message}</p>
+        )}
         <div>
-          <input id="password" type="password" placeholder="Password"/>
-          <button type="button" onClick={() => setShowPassword(!showPassword)}>{showPassword ? "Show" : "Hide"}</button>
+          <input id="password" type="password" placeholder="Password" {...register("password")}/>
+          {errors.password && (
+          <p>{errors.password.message}</p>
+        )}
+        {submitError && (
+          <div>{submitError}</div>
+        )}
+          <button type="button" disabled={isSubmitting} onClick={() => setShowPassword(!showPassword)}>{showPassword ? "Show" : "Hide"}</button>
         </div>
         <button type="submit">Sign Up</button>
       </form>
