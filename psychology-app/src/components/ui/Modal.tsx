@@ -1,15 +1,14 @@
 "use client"
 import { useEffect } from "react";
 
-
-interface ModalProps {
+export interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
     children: React.ReactNode;
     title: string;
 }
 
-export default function AuthModal({isOpen, onClose, children, title}: ModalProps) {
+export default function Modal({isOpen, onClose, children, title}: ModalProps) {
     useEffect(() => {
         const handleEscKey = (event: KeyboardEvent) => {
             if (event.key === "Escape") {
