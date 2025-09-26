@@ -1,8 +1,8 @@
 import React from "react";
 import type { Metadata } from "next";
-
 import "./globals.css";
 import { AuthProvider } from "@/context/AuthContext";
+import Header from "@/components/Header";
 
 export const metadata: Metadata = {
   title: "Psychologists",
@@ -21,6 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <AuthProvider>
+          <Header />
           {children}
         </AuthProvider>
       </body>
