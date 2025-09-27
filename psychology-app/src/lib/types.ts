@@ -56,7 +56,7 @@ export interface PaginationResult<T> {
   lastKey?: string;
 }
 
-export interface fetchPsychologistsOptions {
+export interface FetchPsychologistsOptions {
   sortBy?: SortOption;
   order?: SortOrder;
   limit?: number;
