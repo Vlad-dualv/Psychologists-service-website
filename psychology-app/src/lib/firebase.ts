@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, get, set, orderByChild, limitToFirst, query, startAfter as startAfterQuery } from "firebase/database";
-import { Psychologist } from "./types";
+import { getDatabase, ref, get, remove, set, orderByChild, limitToFirst, query, startAfter as startAfterQuery } from "firebase/database";
+import { Psychologist, User } from "./types";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -77,8 +77,8 @@ export const fetchPsychologists = async (
     }
     const snapshot = await get(psychologistsQuery)
     if (snapshot.exists()) {
-      const data = snapshot.val()
-      const psychologists: Psychologist[] = Object.entries(data).map(([id, psychologist]: [string, any]) => ({
+      const data = snapshot.val() as Record<string, Omit<Psychologist, 'id'>>
+      const psychologists: Psychologist[] = Object.entries(data).map(([id, psychologist]) => ({
         ...psychologist,
         id
       }))
@@ -99,6 +99,74 @@ export const fetchPsychologists = async (
   }
 }
 
+export const fetchSortedPsychologists = async (
+  sortBy: 'name' | 'price_per_hour' | 'rating',
+  order: 'asc' | 'desc' = 'asc',
+  limit: number = 3,
+  startAfter?: string
+): Promise<{ psychologists: Psychologist[], hasMore: boolean, lastKey?: string }> => {
+  try {
+    const snapshot = await get(dbRefs.psychologists());
+    
+    if (snapshot.exists()) {
+      const data = snapshot.val() as Record<string, Omit<Psychologist, 'id'>>;
+      const psychologists: Psychologist[] = Object.entries(data).map(([id, psychologist]) => ({
+        ...psychologist,
+        id
+      }));
+      
+      // Sort psychologists
+      psychologists.sort((a, b) => {
+        let valueA, valueB;
+        
+        switch (sortBy) {
+          case 'name':
+            valueA = a.name.toLowerCase();
+            valueB = b.name.toLowerCase();
+            break;
+          case 'price_per_hour':
+            valueA = a.price_per_hour;
+            valueB = b.price_per_hour;
+            break;
+          case 'rating':
+            valueA = a.rating;
+            valueB = b.rating;
+            break;
+          default:
+            valueA = a.name.toLowerCase();
+            valueB = b.name.toLowerCase();
+        }
+        
+        if (order === 'asc') {
+          return valueA < valueB ? -1 : valueA > valueB ? 1 : 0;
+        } else {
+          return valueA > valueB ? -1 : valueA < valueB ? 1 : 0;
+        }
+      });
+      
+      // Handle pagination
+      const startIndex = startAfter ? psychologists.findIndex(p => p.id === startAfter) + 1 : 0;
+      const endIndex = startIndex + limit;
+      const paginatedPsychologists = psychologists.slice(startIndex, endIndex);
+      const hasMore = endIndex < psychologists.length;
+      const lastKey = hasMore && paginatedPsychologists.length > 0 
+        ? paginatedPsychologists[paginatedPsychologists.length - 1].id 
+        : undefined;
+      
+      return {
+        psychologists: paginatedPsychologists,
+        hasMore,
+        lastKey
+      };
+    }
+    
+    return { psychologists: [], hasMore: false };
+  } catch (error) {
+    console.error('Error fetching sorted psychologists:', error);
+    throw error;
+  }
+};
+
 export const fetchPsychologist = async (id: string): Promise<Psychologist | null> => {
   try {
     const snapshot = await get(dbRefs.psychologist(id))
@@ -111,5 +179,92 @@ export const fetchPsychologist = async (id: string): Promise<Psychologist | null
     throw error;
   }
 }
+
+export const addToFavorites = async (userId: string, psychologistId: string): Promise<void> => {
+  try {
+    const userFavoritesRef = ref(database, `users/${userId}/favorites/${psychologistId}`)
+    await set(userFavoritesRef ,true)
+  } catch (error) {
+    console.error("Error adding to favorites:", error)
+    throw error;
+  }
+}
+
+export const removeFromFavorites = async (userId: string, psychologistId: string): Promise<void> => {
+  try {
+    const userFavoriteRef = ref(database, `users/${userId}/favorites/${psychologistId}`);
+    await remove(userFavoriteRef);
+  } catch (error) {
+    console.error('Error removing from favorites:', error)
+    throw error;
+  }
+}
+
+export const fetchUserFavorites = async (userId: string): Promise<string[]> => {
+  try {
+    const snapshot = await get(dbRefs.userFavorites(userId));
+    if (snapshot.exists()) {
+      return Object.keys(snapshot.val());
+    }
+    return [];
+  } catch (error) {
+    console.error('Error fetching user favorites:', error);
+    throw error;
+  }
+};
+
+export const fetchFavoritePsychologists = async (userId: string): Promise<Psychologist[]> => {
+  try {
+    const favoriteIds = await fetchUserFavorites(userId);
+    if (favoriteIds.length === 0) return [];
+    
+    const favorites: Psychologist[] = [];
+    for (const id of favoriteIds) {
+      const psychologist = await fetchPsychologist(id);
+      if (psychologist) {
+        favorites.push(psychologist);
+      }
+    }
+    
+    return favorites;
+  } catch (error) {
+    console.error('Error fetching favorite psychologists:', error);
+    throw error;
+  }
+};
+
+// Create or update user profile
+export const createUserProfile = async (user: User): Promise<void> => {
+  try {
+    const userRef = dbRefs.user(user.uid);
+    await set(userRef, {
+      email: user.email,
+      name: user.name,
+      favorites: user.favorites || {}
+    });
+  } catch (error) {
+    console.error('Error creating user profile:', error);
+    throw error;
+  }
+};
+
+export const fetchUserProfile = async (uid: string): Promise<User | null> => {
+  try {
+    const snapshot = await get(dbRefs.user(uid));
+    if (snapshot.exists()) {
+      const userData = snapshot.val();
+      return {
+        uid,
+        email: userData.email,
+        name: userData.name,
+        favorites: userData.favorites ? Object.keys(userData.favorites) : []
+      };
+    }
+    return null;
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    throw error;
+  }
+};
 
 export default app;
