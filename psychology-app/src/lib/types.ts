@@ -30,3 +30,35 @@ export type Inputs = {
   email: string;
   password: string;
 };
+
+
+export type AuthFormData = {
+  email: string;
+  password: string;
+  name?: string;
+}
+
+export type AppointmentFormData = {
+  name: string;
+  phone: string;
+  date: string;
+  time: string;
+  email: string;
+  comment?: string;
+}
+
+export type SortOption = "name" | "price_per_hours" | "rating"
+export type SortOrder = "asc" | "desc"
+
+export interface PaginationResult<T> {
+  data: T[];
+  hasMore: boolean;
+  lastKey?: string;
+}
+
+export interface fetchPsychologistsOptions {
+  sortBy?: SortOption;
+  order?: SortOrder;
+  limit?: number;
+  startAfter?: string;
+}
