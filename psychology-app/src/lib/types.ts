@@ -47,7 +47,7 @@ export type AppointmentFormData = {
   comment?: string;
 }
 
-export type SortOption = "name" | "price_per_hours" | "rating"
+export type SortOption = "name" | "price_per_hour" | "rating"
 export type SortOrder = "asc" | "desc"
 
 export interface PaginationResult<T> {
