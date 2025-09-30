@@ -4,8 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, UserRound } from "lucide-react"
-import LoginModal from "./modals/LoginModal";
-import RegisterModal from "./modals/RegisterModal";
 import { useAuth } from "@/context/AuthContext";
 import LoginForm from "./forms/LoginForm";
 import RegisterForm from "./forms/RegisterForm";
@@ -31,7 +29,7 @@ export default function Header() {
 
   return (
     <>
-    <header>
+    <header className="w-full background-#FBFBFB">
       <div>
         <Link href="/">
           <span>psychologists.</span>services<span></span>
@@ -68,7 +66,7 @@ export default function Header() {
         </div>
       </div>
     </header>
-    
+
     {/* MODALS */}
         <Modal 
         isOpen={showLoginModal} 
