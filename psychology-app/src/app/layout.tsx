@@ -1,8 +1,12 @@
 import React from "react";
 import type { Metadata } from "next";
 import "./globals.css";
+import {Inter} from 'next/font/google'
 import { AuthProvider } from "@/context/AuthContext";
 import Header from "@/components/Header";
+
+
+const inter = Inter({subsets: ["latin"]})
 
 export const metadata: Metadata = {
   title: "Psychologists",
@@ -19,10 +23,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <AuthProvider>
-          <Header />
-          {children}
+      <body className={inter.className}>
+          <AuthProvider>
+            <Header />
+            <main className="min-h-screen">
+            {children}
+            </main>
         </AuthProvider>
       </body>
     </html>

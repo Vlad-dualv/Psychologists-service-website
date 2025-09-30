@@ -1,33 +1,90 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import LoginModal from "./modals/LoginModal"
-import RegisterModal from "./modals/RegisterModal"
-import { useAuth } from "@/context/AuthContext"
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Menu, X, UserRound } from "lucide-react"
+import LoginModal from "./modals/LoginModal";
+import RegisterModal from "./modals/RegisterModal";
+import { useAuth } from "@/context/AuthContext";
+import LoginForm from "./forms/LoginForm";
+import RegisterForm from "./forms/RegisterForm";
+import Modal from "./ui/Modal";
 
-export default function Header({}) {
-    const [showLoginModal, setShowLoginModal] = useState(false)
-    const [showRegisterModal, setShowRegisterModal] = useState(false)
-    const {user, logout} = useAuth()
+export default function Header() {
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const { user, logout } = useAuth();
+  const pathname = usePathname();
 
-    return (
-        <header>
-            {user ? (
+  const navLinks = [
+    { href: "/", label: "Home", public: true },
+    { href: "/psychologists", label: "Psychologists", public: true },
+    { href: "/favorites", label: "Favorites", public: false },
+  ];
+
+  const visibleLinks = navLinks.filter((link) => link.public || user);
+
+  const activeLink = (href: string) => pathname === href;
+
+  return (
+    <>
+    <header>
+      <div>
+        <Link href="/">
+          <span>psychologists.</span>services<span></span>
+        </Link>
+        <nav>
+          {visibleLinks.map((link) => (
+            <Link key={link.href} href={link.href}>
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+        <div>
+          {user ? (
+            <div>
                 <div>
-                    <span>Welcome, {user.displayName}</span>
-                    <button type="button" onClick={logout}>Logout</button>
+                    <UserRound/>
+                    <span>{user.displayName}</span>
                 </div>
-            ) : (
-                <div>
-                    <button type="button" onClick={() => setShowLoginModal(true)}>Sing In</button>
-            <button type="button" onClick={() => setShowRegisterModal(true)}>Registration</button>
-                </div>
-            )}
-            
-            <LoginModal isOpen={showLoginModal} onClose={() => setShowLoginModal(false)} />
-            <RegisterModal isOpen={showRegisterModal} onClose={() => setShowRegisterModal(false)} />
-        </header>
-    )
+              
+              <button type="button" onClick={logout}>
+                Logout
+              </button>
+            </div>
+          ) : (
+            <div>
+              <button type="button" onClick={() => setShowLoginModal(true)}>
+                Log In
+              </button>
+              <button type="button" onClick={() => setShowRegisterModal(true)}>
+                Registration
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+    
+    {/* MODALS */}
+        <Modal 
+        isOpen={showLoginModal} 
+        onClose={() => setShowLoginModal(false)}
+        title="Log In"
+      >
+        <LoginForm onSuccess={() => setShowLoginModal(false)} />
+      </Modal>
 
+      <Modal 
+        isOpen={showRegisterModal} 
+        onClose={() => setShowRegisterModal(false)}
+        title="Registration"
+      >
+        <RegisterForm onSuccess={() => setShowRegisterModal(false)} />
+      </Modal>
+    </>
+  );
 }
