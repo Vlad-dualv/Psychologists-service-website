@@ -29,11 +29,11 @@ export default function Header() {
 
   return (
     <>
-    <header className="w-full py-[24px] border-b border-b-[#cccccc] bg-brand-white !text-red-600">
+    <header className="w-full py-[24px] border-b border-b-[#cccccc] bg-brand-white text-red-600">
       <div className="max-w-[1280px] flex justify-between m-auto">
         <nav>
           <Link href="/" className="mr-[130px] py-[10px] ">
-          <span style={{color: '#3B82F6'}}>psychologists.</span><span>services</span>
+          <span className="text-brand-green">psychologists.</span><span className="bg-slate-600">services</span>
         </Link>
           {visibleLinks.map((link) => (
             <Link key={link.href} href={link.href} className="py-[10px]">
