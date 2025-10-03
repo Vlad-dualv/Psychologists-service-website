@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Menu, X, UserRound } from "lucide-react"
 import { useAuth } from "@/context/AuthContext";
 import LoginForm from "./forms/LoginForm";
@@ -15,7 +14,6 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const { user, logout } = useAuth();
-  const pathname = usePathname();
 
   const navLinks = [
     { href: "/", label: "Home", public: true },
@@ -25,64 +23,145 @@ export default function Header() {
 
   const visibleLinks = navLinks.filter((link) => link.public || user);
 
-  const activeLink = (href: string) => pathname === href;
-
   return (
     <>
-    <header className="w-full py-[24px] border-b border-b-[#cccccc] sticky top-0 z-10">
-      <div className="max-w-[1280px] flex justify-between items-center m-auto">
-        <nav>
-          <Link href="/" className="mr-[130px] p-[10px] text-[20px] font-bold">
-          <span className="text-brand-green">psychologists.</span><span>services</span>
-        </Link>
-          {visibleLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="py-[10px] mr-10">
-              {link.label}
+    <header className="w-full py-4 md:py-6 border-b border-b-[#cccccc] sticky top-0 z-10 bg-white">
+      <div className="max-w-[1280px] w-full px-4 md:px-6 mx-auto">
+        <div className="flex justify-between items-center">
+          <nav className="flex items-center">
+            <Link href="/" className="mr-6 md:mr-10 xl:mr-[130px] flex items-center text-lg md:text-[20px] font-bold">
+              <span className="text-brand-green">psychologists.</span><span>services</span>
             </Link>
-          ))}
-        </nav>
-        <div>
-          {user ? (
-            <div>
-                <div>
-                    <UserRound/>
-                    <span>{user.displayName}</span>
+            <div className="hidden md:flex space-x-6">
+              {visibleLinks.map((link) => (
+                <Link 
+                  key={link.href} 
+                  href={link.href} 
+                  className="py-2"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+          </nav>
+          
+          {/* Mobile menu button */}
+          <button 
+            type="button" 
+            className="md:hidden p-2" 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+
+          <div className="hidden md:block">
+            {user ? (
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <UserRound size={20}/>
+                  <span>{user.displayName}</span>
                 </div>
-              
-              <button type="button" onClick={logout}>
-                Logout
-              </button>
-            </div>
-          ) : (
-            <div className="flex gap-2 items-baseline font-[500]">
-              <button type="button" onClick={() => setShowLoginModal(true)} className="border border-gray-300 p-2 rounded-[30px] ">
-                Log In
-              </button>
-              <button type="button" onClick={() => setShowRegisterModal(true)}>
-                Registration
-              </button>
-            </div>
-          )}
+                <button 
+                  type="button" 
+                  onClick={logout}
+                  className="border border-gray-300 px-4 py-2 rounded-[30px] hover:bg-slate-100 transition duration-300 ease-in-out"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="flex gap-2 items-center font-[500]">
+                <button 
+                  type="button" 
+                  onClick={() => setShowLoginModal(true)} 
+                  className="border border-gray-300 px-4 md:px-6 py-2 md:py-3 rounded-[30px] hover:bg-slate-100 transition duration-300 ease-in-out"
+                >
+                  Log In
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => setShowRegisterModal(true)} 
+                  className="border text-brand-white bg-brand-green px-4 md:px-6 py-2 md:py-3 rounded-[30px] hover:bg-brand-green-hover transition duration-300 ease-in-out whitespace-nowrap"
+                >
+                  Registration
+                </button>
+              </div>
+            )}
+          </div>
         </div>
+
+        {/* Mobile menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden py-4">
+            <div className="flex flex-col space-y-3">
+              {visibleLinks.map((link) => (
+                <Link 
+                  key={link.href} 
+                  href={link.href}
+                  className="py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              {user ? (
+                <button 
+                  type="button" 
+                  onClick={() => {
+                    logout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="text-left py-2"
+                >
+                  Logout
+                </button>
+              ) : (
+                <>
+                  <button 
+                    type="button" 
+                    onClick={() => {
+                      setShowLoginModal(true);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="text-left py-2"
+                  >
+                    Log In
+                  </button>
+                  <button 
+                    type="button" 
+                    onClick={() => {
+                      setShowRegisterModal(true);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="text-left py-2"
+                  >
+                    Registration
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </header>
 
     {/* MODALS */}
-        <Modal 
-        isOpen={showLoginModal} 
-        onClose={() => setShowLoginModal(false)}
-        title="Log In"
-      >
-        <LoginForm onSuccess={() => setShowLoginModal(false)} />
-      </Modal>
+    <Modal 
+      isOpen={showLoginModal} 
+      onClose={() => setShowLoginModal(false)}
+      title="Log In"
+    >
+      <LoginForm onSuccess={() => setShowLoginModal(false)} />
+    </Modal>
 
-      <Modal 
-        isOpen={showRegisterModal} 
-        onClose={() => setShowRegisterModal(false)}
-        title="Registration"
-      >
-        <RegisterForm onSuccess={() => setShowRegisterModal(false)} />
-      </Modal>
+    <Modal 
+      isOpen={showRegisterModal} 
+      onClose={() => setShowRegisterModal(false)}
+      title="Registration"
+    >
+      <RegisterForm onSuccess={() => setShowRegisterModal(false)} />
+    </Modal>
     </>
   );
 }
