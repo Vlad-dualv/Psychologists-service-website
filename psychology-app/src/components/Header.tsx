@@ -37,7 +37,7 @@ export default function Header() {
 
   return (
     <>
-    <header className="w-full py-2 md:py-6 border-b border-b-[#cccccc] sticky top-0 z-50 bg-white">
+    <header className="w-full py-2 md:py-6 border-b border-b-[#cccccc] sticky top-0 z-50">
       <div className="max-w-[1280px] w-full px-4 md:px-6 mx-auto">
         <div className="flex justify-between items-center">
           <nav className="flex items-center">
@@ -67,7 +67,6 @@ export default function Header() {
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
-          {/* Desktop auth buttons */}
           <div className="hidden md:block">
             {user ? (
               <div className="flex items-center gap-4">
@@ -106,71 +105,7 @@ export default function Header() {
       </div>
     </header>
 
-    {/* Mobile menu */}
-    {isMobileMenuOpen && (
-      <div className="md:hidden fixed inset-0 top-[64px] z-40 bg-brand-white animate-in slide-in-from-top duration-300">
-        <div className="flex flex-col items-center justify-between h-full px-6 py-8">
-          <nav className="flex flex-col items-center gap-6">
-            {visibleLinks.map((link) => (
-              <Link 
-                key={link.href} 
-                href={link.href}
-                className="text-xl font-medium hover:text-brand-green transition-colors"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
-
-          <div className="w-full max-w-sm">
-            {user ? (
-              <div className="flex flex-col items-center gap-4">
-                <div className="flex items-center gap-2 text-lg">
-                  <UserRound size={24}/>
-                  <span>{user.displayName}</span>
-                </div>
-                <button 
-                  type="button" 
-                  onClick={() => {
-                    logout();
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full border border-gray-300 px-6 py-3 rounded-[30px] hover:bg-slate-100 transition text-lg font-medium"
-                >
-                  Logout
-                </button>
-              </div>
-            ) : (
-              <div className="flex flex-col gap-4">
-                <button 
-                  type="button" 
-                  onClick={() => {
-                    setShowLoginModal(true);
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full border border-gray-300 px-6 py-3 rounded-[30px] hover:bg-slate-100 transition text-lg font-medium"
-                >
-                  Log In
-                </button>
-                <button 
-                  type="button" 
-                  onClick={() => {
-                    setShowRegisterModal(true);
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="w-full border text-brand-white bg-brand-green px-6 py-3 rounded-[30px] hover:bg-brand-green-hover transition text-lg font-medium"
-                >
-                  Registration
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    )}
-
-   
+    {/* Full-screen mobile menu overlay */}
     {isMobileMenuOpen && (
       <div className="md:hidden fixed inset-0 z-40 bg-white">
         <div className="flex flex-col items-center justify-center min-h-screen px-6 py-20">
