@@ -29,14 +29,14 @@ export default function Header() {
 
   return (
     <>
-    <header className="w-full py-[24px] border-b border-b-[#cccccc] bg-brand-white text-red-600">
-      <div className="max-w-[1280px] flex justify-between m-auto">
+    <header className="w-full py-[24px] border-b border-b-[#cccccc] sticky top-0 z-10">
+      <div className="max-w-[1280px] flex justify-between items-center m-auto">
         <nav>
-          <Link href="/" className="mr-[130px] py-[10px] ">
-          <span className="text-brand-green">psychologists.</span><span className="bg-slate-600">services</span>
+          <Link href="/" className="mr-[130px] p-[10px] text-[20px] font-bold">
+          <span className="text-brand-green">psychologists.</span><span>services</span>
         </Link>
           {visibleLinks.map((link) => (
-            <Link key={link.href} href={link.href} className="py-[10px]">
+            <Link key={link.href} href={link.href} className="py-[10px] mr-10">
               {link.label}
             </Link>
           ))}
@@ -54,8 +54,8 @@ export default function Header() {
               </button>
             </div>
           ) : (
-            <div>
-              <button type="button" onClick={() => setShowLoginModal(true)}>
+            <div className="flex gap-2 items-baseline font-[500]">
+              <button type="button" onClick={() => setShowLoginModal(true)} className="border border-gray-300 p-2 rounded-[30px] ">
                 Log In
               </button>
               <button type="button" onClick={() => setShowRegisterModal(true)}>
