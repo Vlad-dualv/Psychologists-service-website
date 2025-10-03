@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, UserRound } from "lucide-react"
 import { useAuth } from "@/context/AuthContext";
@@ -23,9 +23,21 @@ export default function Header() {
 
   const visibleLinks = navLinks.filter((link) => link.public || user);
 
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
   return (
     <>
-    <header className="w-full py-4 md:py-6 border-b border-b-[#cccccc] sticky top-0 z-10 bg-white">
+    <header className="w-full py-2 md:py-6 border-b border-b-[#cccccc] sticky top-0 z-50 bg-white">
       <div className="max-w-[1280px] w-full px-4 md:px-6 mx-auto">
         <div className="flex justify-between items-center">
           <nav className="flex items-center">
@@ -37,7 +49,7 @@ export default function Header() {
                 <Link 
                   key={link.href} 
                   href={link.href} 
-                  className="py-2"
+                  className="py-2 hover:text-brand-green transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -48,13 +60,14 @@ export default function Header() {
           {/* Mobile menu button */}
           <button 
             type="button" 
-            className="md:hidden p-2" 
+            className="md:hidden p-2 relative z-50" 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
+          {/* Desktop auth buttons */}
           <div className="hidden md:block">
             {user ? (
               <div className="flex items-center gap-4">
@@ -90,61 +103,135 @@ export default function Header() {
             )}
           </div>
         </div>
+      </div>
+    </header>
 
-        {/* Mobile menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden py-4">
-            <div className="flex flex-col space-y-3">
-              {visibleLinks.map((link) => (
-                <Link 
-                  key={link.href} 
-                  href={link.href}
-                  className="py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              {user ? (
+    {/* Mobile menu */}
+    {isMobileMenuOpen && (
+      <div className="md:hidden fixed inset-0 top-[64px] z-40 bg-brand-white animate-in slide-in-from-top duration-300">
+        <div className="flex flex-col items-center justify-between h-full px-6 py-8">
+          <nav className="flex flex-col items-center gap-6">
+            {visibleLinks.map((link) => (
+              <Link 
+                key={link.href} 
+                href={link.href}
+                className="text-xl font-medium hover:text-brand-green transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="w-full max-w-sm">
+            {user ? (
+              <div className="flex flex-col items-center gap-4">
+                <div className="flex items-center gap-2 text-lg">
+                  <UserRound size={24}/>
+                  <span>{user.displayName}</span>
+                </div>
                 <button 
                   type="button" 
                   onClick={() => {
                     logout();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="text-left py-2"
+                  className="w-full border border-gray-300 px-6 py-3 rounded-[30px] hover:bg-slate-100 transition text-lg font-medium"
                 >
                   Logout
                 </button>
-              ) : (
-                <>
-                  <button 
-                    type="button" 
-                    onClick={() => {
-                      setShowLoginModal(true);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="text-left py-2"
-                  >
-                    Log In
-                  </button>
-                  <button 
-                    type="button" 
-                    onClick={() => {
-                      setShowRegisterModal(true);
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="text-left py-2"
-                  >
-                    Registration
-                  </button>
-                </>
-              )}
-            </div>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-4">
+                <button 
+                  type="button" 
+                  onClick={() => {
+                    setShowLoginModal(true);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full border border-gray-300 px-6 py-3 rounded-[30px] hover:bg-slate-100 transition text-lg font-medium"
+                >
+                  Log In
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => {
+                    setShowRegisterModal(true);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full border text-brand-white bg-brand-green px-6 py-3 rounded-[30px] hover:bg-brand-green-hover transition text-lg font-medium"
+                >
+                  Registration
+                </button>
+              </div>
+            )}
           </div>
-        )}
+        </div>
       </div>
-    </header>
+    )}
+
+   
+    {isMobileMenuOpen && (
+      <div className="md:hidden fixed inset-0 z-40 bg-white">
+        <div className="flex flex-col items-center justify-center min-h-screen px-6 py-20">
+          <nav className="flex flex-col items-center gap-6 mb-8">
+            {visibleLinks.map((link) => (
+              <Link 
+                key={link.href} 
+                href={link.href}
+                className="text-2xl font-medium hover:text-brand-green transition-colors"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="flex flex-col items-center gap-4 mt-8 pt-8 w-full max-w-sm">
+            {user ? (
+              <>
+                <div className="flex items-center gap-2 text-lg">
+                  <UserRound size={24}/>
+                  <span>{user.displayName}</span>
+                </div>
+                <button 
+                  type="button" 
+                  onClick={() => {
+                    logout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full border border-gray-300 px-6 py-3 rounded-[30px] hover:bg-slate-100 transition text-lg font-medium"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <button 
+                  type="button" 
+                  onClick={() => {
+                    setShowLoginModal(true);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full border border-gray-300 px-6 py-3 rounded-[30px] hover:bg-slate-100 transition text-lg font-medium"
+                >
+                  Log In
+                </button>
+                <button 
+                  type="button" 
+                  onClick={() => {
+                    setShowRegisterModal(true);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="w-full border text-brand-white bg-brand-green px-6 py-3 rounded-[30px] hover:bg-brand-green-hover transition text-lg font-medium"
+                >
+                  Registration
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    )}
 
     {/* MODALS */}
     <Modal 
