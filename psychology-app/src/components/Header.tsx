@@ -106,10 +106,25 @@ export default function Header() {
     </header>
 
     {/* Full-screen mobile menu overlay */}
-    {isMobileMenuOpen && (
-      <div className="md:hidden fixed inset-0 z-40 bg-white">
-        <div className="flex flex-col items-center justify-center min-h-screen px-6 py-20">
-          <nav className="flex flex-col items-center gap-6 mb-8">
+    <div 
+      className={`
+        md:hidden fixed inset-0 z-40 bg-white
+        transition-all duration-300 ease-in-out transform
+        ${isMobileMenuOpen 
+          ? 'opacity-100 translate-y-0' 
+          : 'opacity-0 -translate-y-full pointer-events-none'
+        }
+      `}
+    >
+      <div className={`
+        flex flex-col items-center justify-center min-h-screen px-6 py-20
+        transition-all duration-500 ease-out transform
+        ${isMobileMenuOpen 
+          ? 'opacity-100 translate-y-0' 
+          : 'opacity-0 translate-y-4'
+        }
+      `}>
+        <nav className="flex flex-col items-center gap-6 mb-8">
             {visibleLinks.map((link) => (
               <Link 
                 key={link.href} 
@@ -166,7 +181,7 @@ export default function Header() {
           </div>
         </div>
       </div>
-    )}
+    
 
     {/* MODALS */}
     <Modal 
