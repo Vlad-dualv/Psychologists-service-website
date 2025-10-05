@@ -7,6 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import LoginForm from "./forms/LoginForm";
 import RegisterForm from "./forms/RegisterForm";
 import Modal from "./ui/Modal";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
   const [showLoginModal, setShowLoginModal] = useState(false);
@@ -14,6 +15,7 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const { user, logout } = useAuth();
+  const pathname = usePathname();
 
   const navLinks = [
     { href: "/", label: "Home", public: true },
@@ -22,6 +24,10 @@ export default function Header() {
   ];
 
   const visibleLinks = navLinks.filter((link) => link.public || user);
+
+  const isActive = (href: string) => {
+    return pathname === href;
+  }
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -37,7 +43,7 @@ export default function Header() {
 
   return (
     <>
-    <header className="w-full py-2 md:py-6 border-b border-b-[#cccccc] sticky top-0 z-50">
+    <header className="w-full py-2 md:py-6 border-b border-b-[#cccccc] sticky top-0 z-50 bg-brand-white">
       <div className="max-w-[1280px] w-full px-4 md:px-6 mx-auto">
         <div className="flex justify-between items-center">
           <nav className="flex items-center">
@@ -49,9 +55,12 @@ export default function Header() {
                 <Link 
                   key={link.href} 
                   href={link.href} 
-                  className="py-2 hover:text-brand-green transition-colors"
+                  className="relative py-2 hover:text-brand-green transition-colors"
                 >
                   {link.label}
+                  {isActive(link.href) && (
+                    <span className="absolute left-1/2 -translate-x-1/2 -bottom-1 w-2 h-2 bg-brand-green rounded-full"></span>
+                  )}
                 </Link>
               ))}
             </div>
@@ -102,7 +111,7 @@ export default function Header() {
                 <button 
                   type="button" 
                   onClick={() => setShowLoginModal(true)} 
-                  className="border border-gray-300 px-4 md:px-6 py-2 md:py-3 rounded-[30px] hover:bg-slate-100 transition duration-300 ease-in-out"
+                  className="border border-gray-300 px-4 xl:px-6 py-2 md:py-3 rounded-[30px] hover:bg-slate-100 transition duration-300 ease-in-out"
                 >
                   Log In
                 </button>
