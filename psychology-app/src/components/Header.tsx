@@ -60,11 +60,26 @@ export default function Header() {
           {/* Mobile menu button */}
           <button 
             type="button" 
-            className="md:hidden p-2 relative z-50" 
+            className="md:hidden p-2 relative z-50 group" 
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            <div className="relative w-6 h-6">
+              <div className={`absolute inset-0 transform transition-all duration-300 ease-in-out ${
+                isMobileMenuOpen 
+                  ? 'rotate-180 opacity-0' 
+                  : 'rotate-0 opacity-100'
+              }`}>
+                <Menu size={24} className="text-gray-800 transition-colors" />
+              </div>
+              <div className={`absolute inset-0 transform transition-all duration-300 ease-in-out ${
+                isMobileMenuOpen 
+                  ? 'rotate-0 opacity-100' 
+                  : '-rotate-180 opacity-0'
+              }`}>
+                <X size={24} className="text-gray-800 transition-colors" />
+              </div>
+            </div>
           </button>
 
           <div className="hidden md:block">
