@@ -8,16 +8,18 @@ export default function Hero() {
 
     return (
         <section className='py-10 md:py-[78px]'>
-            <div className='max-w-[1280px] w-full px-4 md:px-6 mx-auto'>
+            <div className='max-w-[1280px] w-full px-4 md:px-6 mx-auto max-md:text-center'>
                 <div>
-                    <h1>The road to the <span>depths</span> of the human soul</h1>
-                <p>
+                    <h1 className='text-4xl md:text-7xl font-semibold'>The road to the <span>depths</span> of the human soul</h1>
+                    <p>
         We help you to reveal your potential, overcome challenges and find a
         guide in your own life with the help of our experienced psychologists.
-                </p>
-                <button type="button">
+                    </p>
+                    <button type="button">
                     <Link href="/psychologists">Get Started <MoveUpRight /></Link>
-                </button>
+                    </button>
+                </div>
+                
                 </div>
                 <div>
                     <MdOutlineQuestionMark />
@@ -30,9 +32,7 @@ export default function Hero() {
                     <div>
                         <Image src={heroImg} alt="Hero Image" width={464} height={526} />
                     </div>
-                </div>
-            </div>
-            
+                </div>    
         </section>
     )
 }
