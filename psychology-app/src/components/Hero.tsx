@@ -7,9 +7,9 @@ import heroImg from "@/images/hero-image.png";
 export default function Hero() {
   return (
     <section className="py-10 md:py-[78px] h-full">
-      <div className="max-w-[1280px] w-full px-4 md:px-6 mx-auto max-md:text-center">
-        <div className="flex max-xl:flex-col gap-6 mb-10 md:mb-16 items-center justify-between">
-          <h1 className="text-4xl md:text-7xl font-semibold">
+      <div className="max-w-[1280px] w-full px-4 md:px-6 mx-auto max-xl:text-center xl:flex xl:items-center xl:justify-between xl:gap-10">
+        <div className="flex flex-col gap-6 mb-10 md:mb-16 items-center justify-between">
+          <h1 className="text-4xl md:text-7xl xl:text-[80px] font-semibold">
             The road to the{" "}
             <span className="text-brand-green italic">depths</span> of the human
             soul
