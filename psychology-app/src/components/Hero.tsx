@@ -6,9 +6,9 @@ import heroImg from "@/images/hero-image.png";
 
 export default function Hero() {
   return (
-    <section className="py-10 md:py-[78px]">
+    <section className="py-10 md:py-[78px] h-full">
       <div className="max-w-[1280px] w-full px-4 md:px-6 mx-auto max-md:text-center">
-        <div className="flex max-md:flex-col gap-6">
+        <div className="flex max-md:flex-col gap-6 mb-10">
           <h1 className="text-4xl md:text-7xl font-semibold">
             The road to the{" "}
             <span className="text-brand-green italic">depths</span> of the human
@@ -31,22 +31,26 @@ export default function Hero() {
             </Link>
           </button>
         </div>
-        <div>
+        <div className="relative">
           <MdOutlineQuestionMark
             size={10}
-            className="bg-brand-purple rounded-[10px] text-brand-white w-10 h-10 p-3"
+            className="bg-brand-purple rounded-[10px] text-brand-white w-10 h-10 p-3 rotate-[-15deg] absolute top-28 left-0"
           />
           <UsersRound
             size={10}
-            className="bg-brand-orange rounded-[10px] text-brand-white w-[48px] h-[48px] p-4"
+            className="bg-brand-orange rounded-[10px] text-brand-white w-11 h-11 p-3 rotate-[15deg] absolute top-8 right-0"
           />
-          <div className="bg-brand-green">
+          <div className="bg-brand-green flex rounded-[20px] p-4 text-left gap-4 absolute -bottom-10 left-1">
             <Check
               size={30}
-              className="bg-brand-white text-brand-green rounded-[30px]"
+              className="bg-brand-white text-brand-green rounded-[13px] w-[48px] h-[48px] p-3"
             />
-            <p>Experienced psychologists</p>
-            <h2>15,000</h2>
+            <div className="text-brand-white">
+              <p className="text-sm text-slate-200">
+                Experienced psychologists
+              </p>
+              <h2 className="text-xl font-semibold">15,000</h2>
+            </div>
           </div>
           <div>
             <Image
