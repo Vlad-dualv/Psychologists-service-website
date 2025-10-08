@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./src/**/*.{js,ts,jsx,tsx,mdx,css}",
-    
-  ],
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx,css}"],
   theme: {
     extend: {
       colors: {
@@ -11,8 +8,9 @@ module.exports = {
         "brand-green": "#54BE96",
         "brand-green-hover": "#36A379",
         "brand-yellow": "#FFC531",
-        
-      }
+        "brand-purple": "#4535AF",
+        "brand-orange": "#FBC75E",
+      },
     },
   },
   plugins: [],
