@@ -50,12 +50,12 @@ export default function PsychologistCard({
       <div className="flex flex-col gap-4 md:gap-6">
         <div className="font-medium">
           <p className="text-gray-500 mb-2">Psychologist</p>
-          <div className="flex gap-4">
-            <div className="flex items-center gap-1 border-r-[1px] border-gray-200 pr-2">
+          <div className="flex">
+            <div className="flex items-center gap-1 border-r-2 border-gray-200 pr-2">
               <Star size={16} className="fill-brand-yellow text-transparent" />
               <p>Rating: 4.75</p>
             </div>
-            <div>
+            <div className="pl-2">
               <p>
                 Price / 1 hour:{" "}
                 <span className="text-[rgba(56,205,62,1)]">120$</span>
