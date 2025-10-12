@@ -7,8 +7,8 @@ import heroImg from "@/images/hero-image.png";
 export default function Hero() {
   return (
     <section className="py-10 md:py-[78px] h-full">
-      <div className="max-w-[1280px] w-full px-4 md:px-6 mx-auto max-xl:text-center xl:flex xl:items-center xl:justify-between xl:gap-10">
-        <div className="flex flex-col gap-6 mb-10 md:mb-16 items-center justify-between">
+      <div className="max-w-[1280px] w-full px-4 md:px-6 mx-auto text-center xl:text-left xl:flex xl:items-start xl:justify-between xl:gap-32">
+        <div className="flex flex-col gap-6 mb-10 md:mb-16 items-center justify-between xl:w-[595px] xl:items-start xl:mt-12">
           <h1 className="text-4xl md:text-7xl xl:text-[80px] font-semibold">
             The road to the{" "}
             <span className="text-brand-green italic">depths</span> of the human
@@ -49,7 +49,9 @@ export default function Hero() {
               <p className="text-sm text-slate-200">
                 Experienced psychologists
               </p>
-              <h2 className="text-xl md:text-2xl font-semibold">15,000</h2>
+              <h2 className="text-xl md:text-2xl font-semibold xl:font-bold">
+                15,000
+              </h2>
             </div>
           </div>
           <div>
