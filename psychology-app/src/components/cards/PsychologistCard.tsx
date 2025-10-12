@@ -30,10 +30,19 @@ export default function PsychologistCard({
       onToggleFavorite(psychologist.id);
     }
   };
+
+  const imageUrl = "https://ftp.goit.study/img/avatars/23.jpg";
+
   return (
     <div className="bg-white rounded-3xl">
       <div>
-        <Image width={100} height={100} />
+        <Image
+          src={imageUrl}
+          alt="Psychologist Avatar"
+          width={100}
+          height={100}
+        />
+
         <div>
           <div>
             <p>Psychologist</p>
