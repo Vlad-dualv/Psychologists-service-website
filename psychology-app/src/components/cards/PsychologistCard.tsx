@@ -35,20 +35,20 @@ export default function PsychologistCard({
 
   return (
     <div className="bg-white rounded-[30px] p-6 flex flex-col md:flex-row gap-4 md:gap-6 tracking-normal max-md:text-sm relative">
-      <div>
-        <div className="relative">
+      <div className="flex-shrink-0">
+        <div className="relative w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40">
           <Image
             src={imageUrl}
             alt="Psychologist Avatar"
-            width={96}
-            height={96}
-            className="border-2 border-[rgba(84,190,150,0.2)] rounded-[15px] p-2"
+            fill
+            sizes="(max-width: 640px) 96px, (max-width: 768px) 128px, 160px"
+            className="border-2 border-[rgba(84,190,150,0.2)] rounded-[15px] p-2 object-cover"
           />
-          <div className="bg-[rgba(56,205,62,1)] w-[10px] h-[10px] rounded-full absolute top-2 left-20 border-2 border-white"></div>
+          <div className="bg-[rgba(56,205,62,1)] w-[10px] h-[10px] md:w-[12px] md:h-[12px] lg:w-[14px] lg:h-[14px] rounded-full absolute top-2 right-2 border-2 border-white"></div>
         </div>
       </div>
-      <div className="flex flex-col gap-4 md:gap-6">
-        <div className="font-medium">
+      <div className="flex flex-col gap-4 md:gap-6 items-start">
+        <div className="font-medium md:flex items-start gap-32">
           <p className="text-gray-500 mb-2">Psychologist</p>
           <div className="flex">
             <div className="flex items-center gap-1 border-r-2 border-gray-200 pr-2">
