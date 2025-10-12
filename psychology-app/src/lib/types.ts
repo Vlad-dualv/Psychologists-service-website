@@ -31,12 +31,11 @@ export type Inputs = {
   password: string;
 };
 
-
 export type AuthFormData = {
   email: string;
   password: string;
   name?: string;
-}
+};
 
 export type AppointmentFormData = {
   name: string;
@@ -45,10 +44,25 @@ export type AppointmentFormData = {
   time: string;
   email: string;
   comment?: string;
+  psychologistId: string;
+  psychologistName: string;
+};
+
+export interface AuthContextType {
+  user: User | null;
+  loading: boolean;
+  signUp: (data: AuthFormData) => Promise<void>;
+  signIn: (data: AuthFormData) => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
-export type SortOption = "name" | "price_per_hour" | "rating"
-export type SortOrder = "asc" | "desc"
+export type SortOption =
+  | "name-asc"
+  | "name-desc"
+  | "price-asc"
+  | "price-desc"
+  | "rating-asc"
+  | "rating-desc";
 
 export interface PaginationResult<T> {
   data: T[];
@@ -58,7 +72,6 @@ export interface PaginationResult<T> {
 
 export interface FetchPsychologistsOptions {
   sortBy?: SortOption;
-  order?: SortOrder;
   limit?: number;
   startAfter?: string;
 }
