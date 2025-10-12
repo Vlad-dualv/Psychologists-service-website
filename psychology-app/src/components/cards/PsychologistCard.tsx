@@ -48,7 +48,7 @@ export default function PsychologistCard({
         </div>
       </div>
       <div className="flex flex-col gap-4 md:gap-6 items-start">
-        <div className="font-medium md:flex items-start gap-32">
+        <div className="font-medium md:flex items-start gap-32 xl:gap-[600px]">
           <p className="text-gray-500 mb-2">Psychologist</p>
           <div className="flex">
             <div className="flex items-center gap-1 border-r-2 border-gray-200 pr-2">
