@@ -94,7 +94,7 @@ export default function PsychologistCard({
             </span>
           </p>
         </div>
-        <p className="max-md:hidden text-gray-400 text-sm">
+        <p className="text-gray-400 text-sm">
           Dr. Sarah Davis is a highly experienced and licensed psychologist
           specializing in Depression and Mood Disorders. With 12 years of
           practice, she has helped numerous individuals overcome their
@@ -103,10 +103,29 @@ export default function PsychologistCard({
           clients feel comfortable and supported throughout their journey to
           better mental health.
         </p>
-        <button type="button" className="underline">
-          Read more
+        <button
+          type="button"
+          className="underline"
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          {isExpanded ? "Show less" : "Read more"}
         </button>
       </div>
+      {isExpanded && (
+        <div className="container">
+          <div className="review">
+            <div className="review-header">
+              <p>M</p>
+              <p>4.5</p>
+            </div>
+            <p>
+              Dr. Davis has been a great help in managing my depression. Her
+              insights have been valuable.
+            </p>
+          </div>
+          <button type="button">Make an appointment</button>
+        </div>
+      )}
     </div>
   );
 }
