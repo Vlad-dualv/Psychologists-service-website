@@ -31,14 +31,12 @@ export default function PsychologistCard({
     }
   };
 
-  const imageUrl = "https://ftp.goit.study/img/avatars/23.jpg";
-
   return (
     <div className="bg-white rounded-[30px] p-6 flex flex-col md:flex-row gap-4 md:gap-6 tracking-normal max-md:text-sm relative">
       <div className="flex-shrink-0">
         <div className="relative w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40">
           <Image
-            src={imageUrl}
+            src={psychologist.avatar_url}
             alt="Psychologist Avatar"
             fill
             sizes="(max-width: 640px) 96px, (max-width: 768px) 128px, 160px"
@@ -53,12 +51,14 @@ export default function PsychologistCard({
           <div className="flex">
             <div className="flex items-center gap-1 border-r-2 border-gray-200 pr-2">
               <Star size={16} className="fill-brand-yellow text-transparent" />
-              <p>Rating: 4.75</p>
+              <p>Rating: {psychologist.rating.toFixed(2)}</p>
             </div>
             <div className="pl-2">
               <p>
                 Price / 1 hour:{" "}
-                <span className="text-[rgba(56,205,62,1)]">120$</span>
+                <span className="text-[rgba(56,205,62,1)]">
+                  {psychologist.price_per_hour}$
+                </span>
               </p>
             </div>
           </div>
@@ -72,10 +72,11 @@ export default function PsychologistCard({
             <Heart size={23} />
           </button>
         </div>
-        <h3 className="text-lg font-medium">Dr. Sarah Davis</h3>
+        <h3 className="text-lg font-medium">{psychologist.name}</h3>
         <div className="font-medium flex flex-wrap gap-1">
           <p className="inline-block text-gray-500 bg-[rgba(243,243,243,1)] py-2 px-4 rounded-[24px]">
-            Experience: <span className="text-black">12 years</span>
+            Experience:{" "}
+            <span className="text-black">{psychologist.experience}</span>
           </p>
           <p className="inline-block text-gray-500 bg-[rgba(243,243,243,1)] py-2 px-4 rounded-[24px]">
             Licence:{" "}
@@ -85,12 +86,12 @@ export default function PsychologistCard({
           </p>
           <p className="inline-block text-gray-500 bg-[rgba(243,243,243,1)] py-2 px-4 rounded-[24px]">
             Specialization:{" "}
-            <span className="text-black">Cognitive Behavioral Therapy</span>
+            <span className="text-black">{psychologist.specialization}</span>
           </p>
           <p className="inline-block text-gray-500 bg-[rgba(243,243,243,1)] py-2 px-4 rounded-[24px]">
             Initial consultation:{" "}
             <span className="text-black">
-              Free 45-minute initial consultation
+              {psychologist.initial_consultation}
             </span>
           </p>
         </div>
@@ -104,58 +105,34 @@ export default function PsychologistCard({
         {isExpanded && (
           <div className="flex flex-col gap-10">
             <p className="text-gray-400 text-sm md:text-base mb-[8px]">
-              Dr. Sarah Davis is a highly experienced and licensed psychologist
-              specializing in Depression and Mood Disorders. With 12 years of
-              practice, she has helped numerous individuals overcome their
-              depression and regain control of their lives. Dr. Davis is known
-              for her empathetic and understanding approach to therapy, making
-              her clients feel comfortable and supported throughout their
-              journey to better mental health.
+              {psychologist.about}
             </p>
-            <div className="flex flex-col gap-6">
-              <div>
-                <div className="flex items-start gap-3">
-                  <div className="text-brand-green bg-[rgba(84,190,150,0.2)] border rounded-full font-medium text-xl w-[44px] h-[44px] text-center content-center">
-                    M
-                  </div>
+            <ul className="flex flex-col gap-6">
+              {psychologist.reviews.map((review, index) => (
+                <li key={index}>
                   <div>
-                    <p className="font-medium">Michael Brown</p>
-                    <div className="flex items-center gap-2 mb-[18px]">
-                      <Star
-                        size={16}
-                        className="fill-brand-yellow text-transparent"
-                      />
-                      <p className="font-medium text-sm">4.5</p>
+                    <div className="flex items-start gap-3">
+                      <div className="text-brand-green bg-[rgba(84,190,150,0.2)] border rounded-full font-medium text-xl w-[44px] h-[44px] flex items-center justify-center">
+                        {review.reviewer ? review.reviewer.charAt(0) : "?"}
+                      </div>
+                      <div>
+                        <p className="font-medium">{review.reviewer}</p>
+                        <div className="flex items-center gap-2 mb-[18px]">
+                          <Star
+                            size={16}
+                            className="fill-brand-yellow text-transparent"
+                          />
+                          <p className="font-medium text-sm">{review.rating}</p>
+                        </div>
+                      </div>
                     </div>
+                    <p className="text-gray-400 text-sm md:text-base">
+                      {review.comment}
+                    </p>
                   </div>
-                </div>
-                <p className="text-gray-400 text-sm md:text-base">
-                  Dr. Davis has been a great help in managing my depression. Her
-                  insights have been valuable.
-                </p>
-              </div>
-              <div>
-                <div className="flex items-start gap-3">
-                  <div className="text-brand-green bg-[rgba(84,190,150,0.2)] border rounded-full font-medium text-xl w-[44px] h-[44px] text-center content-center">
-                    M
-                  </div>
-                  <div>
-                    <p className="font-medium">Michael Brown</p>
-                    <div className="flex items-center gap-2 mb-[18px]">
-                      <Star
-                        size={16}
-                        className="fill-brand-yellow text-transparent"
-                      />
-                      <p className="font-medium text-sm">4.5</p>
-                    </div>
-                  </div>
-                </div>
-                <p className="text-gray-400 text-sm md:text-base">
-                  Dr. Davis has been a great help in managing my depression. Her
-                  insights have been valuable.
-                </p>
-              </div>
-            </div>
+                </li>
+              ))}
+            </ul>
 
             <button
               type="button"
