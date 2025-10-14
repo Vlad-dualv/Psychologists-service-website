@@ -112,30 +112,54 @@ export default function PsychologistCard({
               her clients feel comfortable and supported throughout their
               journey to better mental health.
             </p>
-            <div className="review">
-              <div className="flex items-start gap-3">
-                <div className="text-brand-green bg-[rgba(84,190,150,0.2)] border rounded-full font-medium text-xl w-[44px] h-[44px] text-center content-center">
-                  M
-                </div>
-                <div>
-                  <p className="font-medium">Michael Brown</p>
-                  <div className="flex items-center gap-2 mb-[18px]">
-                    <Star
-                      size={16}
-                      className="fill-brand-yellow text-transparent"
-                    />
-                    <p className="font-medium text-sm">4.5</p>
+            <div className="flex flex-col gap-6">
+              <div>
+                <div className="flex items-start gap-3">
+                  <div className="text-brand-green bg-[rgba(84,190,150,0.2)] border rounded-full font-medium text-xl w-[44px] h-[44px] text-center content-center">
+                    M
+                  </div>
+                  <div>
+                    <p className="font-medium">Michael Brown</p>
+                    <div className="flex items-center gap-2 mb-[18px]">
+                      <Star
+                        size={16}
+                        className="fill-brand-yellow text-transparent"
+                      />
+                      <p className="font-medium text-sm">4.5</p>
+                    </div>
                   </div>
                 </div>
+                <p className="text-gray-400 text-sm md:text-base">
+                  Dr. Davis has been a great help in managing my depression. Her
+                  insights have been valuable.
+                </p>
               </div>
-              <p className="text-gray-400 text-sm md:text-base">
-                Dr. Davis has been a great help in managing my depression. Her
-                insights have been valuable.
-              </p>
+              <div>
+                <div className="flex items-start gap-3">
+                  <div className="text-brand-green bg-[rgba(84,190,150,0.2)] border rounded-full font-medium text-xl w-[44px] h-[44px] text-center content-center">
+                    M
+                  </div>
+                  <div>
+                    <p className="font-medium">Michael Brown</p>
+                    <div className="flex items-center gap-2 mb-[18px]">
+                      <Star
+                        size={16}
+                        className="fill-brand-yellow text-transparent"
+                      />
+                      <p className="font-medium text-sm">4.5</p>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-gray-400 text-sm md:text-base">
+                  Dr. Davis has been a great help in managing my depression. Her
+                  insights have been valuable.
+                </p>
+              </div>
             </div>
+
             <button
               type="button"
-              className="text-white border bg-brand-green rounded-[30px] font-medium px-6 py-3 md:px-[50px] md:py-[18px] hover:bg-brand-green-hover transition duration-300 ease-in-out"
+              className="text-white border bg-brand-green rounded-[30px] font-medium px-6 md:px-8 py-3 md:py-[14px] hover:bg-brand-green-hover transition duration-300 ease-in-out max-w-[270px]"
             >
               Make an appointment
             </button>
