@@ -94,15 +94,6 @@ export default function PsychologistCard({
             </span>
           </p>
         </div>
-        <p className="text-gray-400 text-sm">
-          Dr. Sarah Davis is a highly experienced and licensed psychologist
-          specializing in Depression and Mood Disorders. With 12 years of
-          practice, she has helped numerous individuals overcome their
-          depression and regain control of their lives. Dr. Davis is known for
-          her empathetic and understanding approach to therapy, making her
-          clients feel comfortable and supported throughout their journey to
-          better mental health.
-        </p>
         <button
           type="button"
           className="underline"
@@ -110,22 +101,47 @@ export default function PsychologistCard({
         >
           {isExpanded ? "Show less" : "Read more"}
         </button>
-      </div>
-      {isExpanded && (
-        <div className="container">
-          <div className="review">
-            <div className="review-header">
-              <p>M</p>
-              <p>4.5</p>
-            </div>
-            <p>
-              Dr. Davis has been a great help in managing my depression. Her
-              insights have been valuable.
+        {isExpanded && (
+          <div className="flex flex-col gap-10">
+            <p className="text-gray-400 text-sm md:text-base mb-[8px]">
+              Dr. Sarah Davis is a highly experienced and licensed psychologist
+              specializing in Depression and Mood Disorders. With 12 years of
+              practice, she has helped numerous individuals overcome their
+              depression and regain control of their lives. Dr. Davis is known
+              for her empathetic and understanding approach to therapy, making
+              her clients feel comfortable and supported throughout their
+              journey to better mental health.
             </p>
+            <div className="review">
+              <div className="flex items-start gap-3">
+                <div className="text-brand-green bg-[rgba(84,190,150,0.2)] border rounded-full font-medium text-xl w-[44px] h-[44px] text-center content-center">
+                  M
+                </div>
+                <div>
+                  <p className="font-medium">Michael Brown</p>
+                  <div className="flex items-center gap-2 mb-[18px]">
+                    <Star
+                      size={16}
+                      className="fill-brand-yellow text-transparent"
+                    />
+                    <p className="font-medium text-sm">4.5</p>
+                  </div>
+                </div>
+              </div>
+              <p className="text-gray-400 text-sm md:text-base">
+                Dr. Davis has been a great help in managing my depression. Her
+                insights have been valuable.
+              </p>
+            </div>
+            <button
+              type="button"
+              className="text-white border bg-brand-green rounded-[30px] font-medium px-6 py-3 md:px-[50px] md:py-[18px] hover:bg-brand-green-hover transition duration-300 ease-in-out"
+            >
+              Make an appointment
+            </button>
           </div>
-          <button type="button">Make an appointment</button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }
