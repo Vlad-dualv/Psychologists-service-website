@@ -35,7 +35,19 @@ export default function PsychologistsPage() {
   }, [allPsychologists, itemsToShow]);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-8 text-center">
+    <section className="max-w-7xl mx-auto px-4 py-8 text-left">
+      <div>
+        <label htmlFor="sort">Filters</label>
+        <select name="sort" id="sort">
+          <option value="name-asc">A to Z</option>
+          <option value="name-desc">Z to A</option>
+          <option value="price-asc">Price (Low to High)</option>
+          <option value="price-desc">Price (High to Low)</option>
+          <option value="rating-asc">Popular</option>
+          <option value="rating-desc">Not popular</option>
+          <option value="">Show All</option>
+        </select>
+      </div>
       <ul className="mb-16">
         {displayedPsychologists.map((psychologist) => (
           <li key={psychologist.about} className="mb-8">
