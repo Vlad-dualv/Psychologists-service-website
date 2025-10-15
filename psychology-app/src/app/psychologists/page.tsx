@@ -35,14 +35,15 @@ export default function PsychologistsPage() {
   }, [allPsychologists, itemsToShow]);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-8">
-      <ul>
+    <section className="max-w-7xl mx-auto px-4 py-8 text-center">
+      <ul className="mb-16">
         {displayedPsychologists.map((psychologist) => (
-          <li key={psychologist.id}>
+          <li key={psychologist.about} className="mb-8">
             <PsychologistCard psychologist={psychologist} />
           </li>
         ))}
       </ul>
+      <button type="button" className="text-[rgba(243,243,243,1)] border bg-brand-green rounded-[30px] font-medium py-3 md:py-[14px] hover:bg-brand-green-hover transition duration-300 ease-in-out w-[176px]">Load More</button>
     </section>
   );
 }
