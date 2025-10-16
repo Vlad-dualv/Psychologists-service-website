@@ -16,6 +16,7 @@ export default function PsychologistsPage() {
   const [displayedPsychologists, setDisplayedPsychologists] = useState<
     Psychologist[]
   >([]);
+  const [selectedFilter, setSelectedFilter] = useState("A to Z");
 
   useEffect(() => {
     async function loadPsychologists() {
@@ -50,71 +51,111 @@ export default function PsychologistsPage() {
           Filters
         </label>
         <Menu>
-          <MenuButton className="flex justify-between bg-brand-green hover:bg-brand-green-hover text-[rgba(251,251,251,1)] font-medium tracking-normal rounded-[14px] shadow border w-[226px] text-left p-2 xl:p-4 transition duration-300 ease-in-out">
-            A to Z
-            <ChevronDown size={20} />
-          </MenuButton>
-          <MenuItems
-            transition
-            className="fixed z-10 mt-2 bg-white rounded-[14px] shadow w-[226px]"
-          >
-            <MenuItem>
-              <button
-                className="w-full px-4 py-2 text-left text-brand-grey hover:text-black"
-                value="name-asc"
+          {({ open }) => (
+            <>
+              <MenuButton className="flex justify-between items-center px-4 py-3  md:py-[14px] bg-brand-green hover:bg-brand-green-hover text-[rgba(251,251,251,1)] font-medium tracking-normal rounded-[14px] shadow border w-[226px] text-left transition duration-300 ease-in-out">
+                {selectedFilter}
+                {open ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+              </MenuButton>
+              <MenuItems
+                transition
+                className="absolute z-10 mt-2 bg-white rounded-[14px] shadow w-[226px]"
               >
-                A to Z
-              </button>
-            </MenuItem>
-            <MenuItem>
-              <button
-                className="w-full px-4 py-2 text-left text-brand-grey hover:text-black"
-                value="name-desc"
-              >
-                Z to A
-              </button>
-            </MenuItem>
-            <MenuItem>
-              <button
-                className="w-full px-4 py-2 text-left text-brand-grey hover:text-black"
-                value="price-asc"
-              >
-                Price (Low to High)
-              </button>
-            </MenuItem>
-            <MenuItem>
-              <button
-                className="w-full px-4 py-2 text-left text-brand-grey hover:text-black"
-                value="name-desc"
-              >
-                Price (High to Low)
-              </button>
-            </MenuItem>
-            <MenuItem>
-              <button
-                className="w-full px-4 py-2 text-left text-brand-grey hover:text-black"
-                value="rating-asc"
-              >
-                Popular
-              </button>
-            </MenuItem>
-            <MenuItem>
-              <button
-                className="w-full px-4 py-2 text-left text-brand-grey hover:text-black"
-                value="rating-desc"
-              >
-                Not popular
-              </button>
-            </MenuItem>
-            <MenuItem>
-              <button
-                className="w-full px-4 py-2 text-left text-brand-grey hover:text-black"
-                value="show-all"
-              >
-                Show All
-              </button>
-            </MenuItem>
-          </MenuItems>
+                <MenuItem>
+                  {({ focus }) => (
+                    <button
+                      className={`w-full px-4 py-2 text-left transition-colors ${
+                        focus ? "text-black" : "text-brand-grey"
+                      }`}
+                      onClick={() => handleFilterSelect("name-asc", "A to Z")}
+                    >
+                      A to Z
+                    </button>
+                  )}
+                </MenuItem>
+                <MenuItem>
+                  {({ focus }) => (
+                    <button
+                      className={`w-full px-4 py-2 text-left transition-colors ${
+                        focus ? "text-black" : "text-brand-grey"
+                      }`}
+                      onClick={() => handleFilterSelect("name-desc", "Z to A")}
+                    >
+                      Z to A
+                    </button>
+                  )}
+                </MenuItem>
+                <MenuItem>
+                  {({ focus }) => (
+                    <button
+                      className={`w-full px-4 py-2 text-left transition-colors ${
+                        focus ? "text-black" : "text-brand-grey"
+                      }`}
+                      onClick={() =>
+                        handleFilterSelect("price-asc", "Price (Low to High)")
+                      }
+                    >
+                      Price (Low to High)
+                    </button>
+                  )}
+                </MenuItem>
+                <MenuItem>
+                  {({ focus }) => (
+                    <button
+                      className={`w-full px-4 py-2 text-left transition-colors ${
+                        focus ? "text-black" : "text-brand-grey"
+                      }`}
+                      onClick={() =>
+                        handleFilterSelect("price-desc", "Price (High to Low)")
+                      }
+                    >
+                      Price (High to Low)
+                    </button>
+                  )}
+                </MenuItem>
+                <MenuItem>
+                  {({ focus }) => (
+                    <button
+                      className={`w-full px-4 py-2 text-left transition-colors ${
+                        focus ? "text-black" : "text-brand-grey"
+                      }`}
+                      onClick={() =>
+                        handleFilterSelect("rating-desc", "Popular")
+                      }
+                    >
+                      Popular
+                    </button>
+                  )}
+                </MenuItem>
+                <MenuItem>
+                  {({ focus }) => (
+                    <button
+                      className={`w-full px-4 py-2 text-left transition-colors ${
+                        focus ? "text-black" : "text-brand-grey"
+                      }`}
+                      onClick={() =>
+                        handleFilterSelect("rating-asc", "Not popular")
+                      }
+                    >
+                      Not popular
+                    </button>
+                  )}
+                </MenuItem>
+                <MenuItem>
+                  {({ focus }) => (
+                    <button
+                      className={`w-full px-4 py-2 text-left transition-colors ${
+                        focus ? "text-black" : "text-brand-grey"
+                      }`}
+                      onClick={() => handleFilterSelect("show-all", "Show All")}
+                    >
+                      Show All
+                    </button>
+                  )}
+                </MenuItem>
+              </MenuItems>
+            </>
+          )}
         </Menu>
       </div>
       <ul className="mb-16">
