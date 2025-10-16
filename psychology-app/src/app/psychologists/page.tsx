@@ -36,10 +36,12 @@ export default function PsychologistsPage() {
   }, []);
 
   useEffect(() => {
-    {
-    }
     setDisplayedPsychologists(allPsychologists.slice(0, itemsToShow));
   }, [allPsychologists, itemsToShow]);
+
+  function handleLoadMore() {
+    setItemsToShow((prev) => prev + 3);
+  }
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-8 text-left">
@@ -167,7 +169,12 @@ export default function PsychologistsPage() {
       </ul>
       <button
         type="button"
-        className="mx-auto block text-[rgba(243,243,243,1)] border bg-brand-green rounded-[30px] font-medium py-3 md:py-[14px] hover:bg-brand-green-hover transition duration-300 ease-in-out w-[176px]"
+        onClick={handleLoadMore}
+        className={`mx-auto block text-[rgba(243,243,243,1)] border bg-brand-green rounded-[30px] font-medium py-3 md:py-[14px] hover:bg-brand-green-hover transition duration-300 ease-in-out w-[176px] ${
+          displayedPsychologists.length >= allPsychologists.length || loading
+            ? "hidden"
+            : ""
+        }`}
       >
         Load More
       </button>
