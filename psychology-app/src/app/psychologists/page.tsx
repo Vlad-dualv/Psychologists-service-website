@@ -50,7 +50,7 @@ export default function PsychologistsPage() {
         <select
           name="sort"
           id="sort"
-          className="text-[rgba(251,251,251,1)] bg-[rgba(255,255,255,1)] font-medium tracking-normal;
+          className="bg-[rgba(255,255,255,1)] font-medium tracking-normal;
 "
         >
           <option value="name-asc" className="">
