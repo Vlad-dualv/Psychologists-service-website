@@ -2,10 +2,11 @@
 
 import { useState, useEffect, Fragment } from "react";
 import PsychologistCard from "@/components/cards/PsychologistCard";
-import { Psychologist } from "@/lib/types";
+import { Psychologist, SortOption } from "@/lib/types";
 import { fetchAllPsychologists } from "@/lib/firebase";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import { set } from "firebase/database";
 
 export default function PsychologistsPage() {
   const [loading, setLoading] = useState(true);
@@ -17,6 +18,9 @@ export default function PsychologistsPage() {
     Psychologist[]
   >([]);
   const [selectedFilter, setSelectedFilter] = useState("A to Z");
+  const [sortBy, setSortBy] = useState<SortOption>("show-all");
+
+  // Fetch psychologists on component mount
 
   useEffect(() => {
     async function loadPsychologists() {
@@ -35,12 +39,45 @@ export default function PsychologistsPage() {
     loadPsychologists();
   }, []);
 
+  // Sort and paginate psychologists
+
   useEffect(() => {
-    setDisplayedPsychologists(allPsychologists.slice(0, itemsToShow));
-  }, [allPsychologists, itemsToShow]);
+    if (allPsychologists.length === 0) return;
+    const sorted = [...allPsychologists].sort((a, b) => {
+      switch (sortBy) {
+        case "name-asc":
+          return a.name.localeCompare(b.name);
+        case "name-desc":
+          return b.name.localeCompare(a.name);
+        case "price-asc":
+          return a.price_per_hour - b.price_per_hour;
+        case "price-desc":
+          return b.price_per_hour - a.price_per_hour;
+        case "rating-asc":
+          return a.rating - b.rating;
+        case "rating-desc":
+          return b.rating - a.rating;
+        case "show-all":
+          return 0;
+        default:
+          return 0;
+      }
+    });
+    setDisplayedPsychologists(sorted.slice(0, itemsToShow));
+  }, [sortBy, allPsychologists, itemsToShow]);
 
   function handleLoadMore() {
     setItemsToShow((prev) => prev + 3);
+  }
+
+  function handleFilterSelect(filterValue: string, filterLabel: string) {
+    setSelectedFilter(filterLabel);
+    if (filterValue === "show-all") {
+      setItemsToShow(allPsychologists.length);
+    } else {
+      setSortBy(filterValue as SortOption);
+      setItemsToShow(3);
+    }
   }
 
   return (
