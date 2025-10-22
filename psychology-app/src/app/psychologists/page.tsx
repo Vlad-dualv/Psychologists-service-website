@@ -92,7 +92,7 @@ export default function PsychologistsPage() {
         <Menu>
           {({ open }) => (
             <>
-              <MenuButton className="flex justify-between items-center px-4 py-3  md:py-[14px] bg-brand-green hover:bg-brand-green-hover text-[rgba(251,251,251,1)] font-medium tracking-normal rounded-[14px] shadow border w-[226px] text-left transition duration-300 ease-in-out">
+              <MenuButton className="flex justify-between items-center px-3 py-2  xl:py-[14px] bg-brand-green hover:bg-brand-green-hover text-[rgba(251,251,251,1)] font-medium tracking-normal rounded-[14px] shadow border w-[226px] text-left transition duration-300 ease-in-out">
                 {selectedFilter}
                 {open ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
               </MenuButton>
@@ -197,25 +197,35 @@ export default function PsychologistsPage() {
           )}
         </Menu>
       </div>
-      <ul className="mb-16">
-        {displayedPsychologists.map((psychologist) => (
-          <li key={psychologist.about} className="mb-8">
-            <PsychologistCard psychologist={psychologist} />
-          </li>
-        ))}
-      </ul>
-      {displayedPsychologists.length < allPsychologists.length && (
-        <button
-          type="button"
-          onClick={handleLoadMore}
-          className={`mx-auto block text-[rgba(243,243,243,1)] border bg-brand-green rounded-[30px] font-medium py-3 md:py-[14px] hover:bg-brand-green-hover transition duration-300 ease-in-out w-[176px] ${
-            displayedPsychologists.length >= allPsychologists.length || loading
-              ? "hidden"
-              : ""
-          }`}
-        >
-          Load More
-        </button>
+      {/* Psychologists List */}
+      {displayedPsychologists.length > 0 ? (
+        <>
+          <ul className="mb-16">
+            {displayedPsychologists.map((psychologist) => (
+              <li key={psychologist.about} className="mb-8">
+                <PsychologistCard psychologist={psychologist} />
+              </li>
+            ))}
+          </ul>
+
+          {/* Load More Button */}
+          {displayedPsychologists.length < allPsychologists.length && (
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={handleLoadMore}
+                className="mx-auto block text-white bg-brand-green rounded-[30px] font-medium py-3 md:py-[14px] hover:bg-brand-green-hover transition duration-300 ease-in-out w-[176px] shadow-md hover:shadow-lg"
+              >
+                Load More
+              </button>
+            </div>
+          )}
+        </>
+      ) : (
+        /* Empty State */
+        <div className="text-center py-12">
+          <p className="text-gray-500">No psychologists found</p>
+        </div>
       )}
     </section>
   );
