@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Star, Heart } from "lucide-react";
 import { Psychologist } from "@/lib/types";
+import { formatPrice } from "@/lib/utils";
 
 interface PsychologistCardProps {
   psychologist: Psychologist;
@@ -57,7 +58,7 @@ export default function PsychologistCard({
               <p>
                 Price / 1 hour:{" "}
                 <span className="text-[rgba(56,205,62,1)]">
-                  {psychologist.price_per_hour}$
+                  {formatPrice(psychologist.price_per_hour)}
                 </span>
               </p>
             </div>
