@@ -204,17 +204,19 @@ export default function PsychologistsPage() {
           </li>
         ))}
       </ul>
-      <button
-        type="button"
-        onClick={handleLoadMore}
-        className={`mx-auto block text-[rgba(243,243,243,1)] border bg-brand-green rounded-[30px] font-medium py-3 md:py-[14px] hover:bg-brand-green-hover transition duration-300 ease-in-out w-[176px] ${
-          displayedPsychologists.length >= allPsychologists.length || loading
-            ? "hidden"
-            : ""
-        }`}
-      >
-        Load More
-      </button>
+      {displayedPsychologists.length < allPsychologists.length && (
+        <button
+          type="button"
+          onClick={handleLoadMore}
+          className={`mx-auto block text-[rgba(243,243,243,1)] border bg-brand-green rounded-[30px] font-medium py-3 md:py-[14px] hover:bg-brand-green-hover transition duration-300 ease-in-out w-[176px] ${
+            displayedPsychologists.length >= allPsychologists.length || loading
+              ? "hidden"
+              : ""
+          }`}
+        >
+          Load More
+        </button>
+      )}
     </section>
   );
 }
