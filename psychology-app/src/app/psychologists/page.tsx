@@ -6,7 +6,8 @@ import { Psychologist, SortOption } from "@/lib/types";
 import { fetchAllPsychologists } from "@/lib/firebase";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { set } from "firebase/database";
+import { RingLoader } from "react-spinners";
+import Loader from "@/components/ui/Loader";
 
 export default function PsychologistsPage() {
   const [loading, setLoading] = useState(true);
@@ -227,6 +228,7 @@ export default function PsychologistsPage() {
           <p className="text-gray-500">No psychologists found</p>
         </div>
       )}
+      {loading && <Loader />}
     </section>
   );
 }

@@ -1,4 +1,4 @@
-import { Psychologist, SortOption } from "./types";
+import { Psychologist, SortOption, SortOrder } from "./types";
 
 export const formatPrice = (price: number): string => {
   return `${price}$`;
