@@ -4,6 +4,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { AuthProvider } from "@/context/AuthContext";
 import Header from "@/components/Header";
+import { FavoritesProvider } from "@/context/FavoritesContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,8 +27,10 @@ export default function RootLayout({
         className={`${inter.className} bg-brand-white text-[#191A15] font-sans text-base font-normal leading-5 tracking-tight overflow-x-hidden`}
       >
         <AuthProvider>
-          <Header />
-          <main className="min-h-screen">{children}</main>
+          <FavoritesProvider>
+            <Header />
+            <main className="min-h-screen">{children}</main>
+          </FavoritesProvider>
         </AuthProvider>
       </body>
     </html>
