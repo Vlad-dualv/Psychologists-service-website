@@ -1,4 +1,4 @@
-export interface User {
+export interface UserProfile {
   uid: string;
   name: string;
   email: string;
@@ -49,7 +49,7 @@ export type AppointmentFormData = {
 };
 
 export interface AuthContextType {
-  user: User | null;
+  user: UserProfile | null;
   loading: boolean;
   signUp: (data: AuthFormData) => Promise<void>;
   signIn: (data: AuthFormData) => Promise<void>;

@@ -11,7 +11,7 @@ import {
   query,
   startAfter as startAfterQuery,
 } from "firebase/database";
-import { Psychologist, User } from "./types";
+import { Psychologist, UserProfile } from "./types";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -54,8 +54,8 @@ export const fetchAllPsychologists = async (): Promise<Psychologist[]> => {
   try {
     const snapshot = await get(dbRefs.psychologists());
     if (snapshot.exists()) {
-      const data = snapshot.val();
-      return Object.values(data);
+      const data = snapshot.val() as Record<string, Omit<Psychologist, "id">>;
+      return Object.entries(data).map(([id, p]) => ({ ...p, id }));
     }
     return [];
   } catch (error) {
@@ -277,7 +277,7 @@ export const fetchFavoritePsychologists = async (
 };
 
 // Create or update user profile
-export const createUserProfile = async (user: User): Promise<void> => {
+export const createUserProfile = async (user: UserProfile): Promise<void> => {
   try {
     const userRef = dbRefs.user(user.uid);
     await set(userRef, {
@@ -291,7 +291,9 @@ export const createUserProfile = async (user: User): Promise<void> => {
   }
 };
 
-export const fetchUserProfile = async (uid: string): Promise<User | null> => {
+export const fetchUserProfile = async (
+  uid: string
+): Promise<UserProfile | null> => {
   try {
     const snapshot = await get(dbRefs.user(uid));
     if (snapshot.exists()) {

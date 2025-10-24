@@ -1,13 +1,14 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect } from "react";
-import { onAuthStateChanged, User } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
+import type { User as FirebaseUser } from "firebase/auth";
 import { RegisterFormData, LoginFormData } from "@/lib/validationSchemas";
 import { auth } from "@/lib/firebase";
 import { loginUser, logoutUser, registerUser } from "@/lib/auth";
 
 interface AuthContextType {
-  user: User | null;
+  user: FirebaseUser | null;
   isAuthenticated: boolean;
   loading: boolean;
   register: (userData: RegisterFormData) => Promise<void>;
@@ -18,7 +19,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<FirebaseUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
