@@ -9,6 +9,7 @@ import {
   useMemo,
 } from "react";
 import { localStorageUtils } from "@/lib/utils";
+import { useAuth } from "./AuthContext";
 
 interface FavoritesContextType {
   favorites: string[];
@@ -25,19 +26,27 @@ const FavoritesContext = createContext<FavoritesContextType | undefined>(
 export function FavoritesProvider({ children }: { children: ReactNode }) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
-  useEffect(() => {
-    const savedFavorites = localStorageUtils.getFavorites();
-    setFavorites(savedFavorites);
-    setIsLoaded(true);
-  }, []);
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
-    if (isLoaded) {
+    if (isAuthenticated) {
+      const savedFavorites = localStorageUtils.getFavorites();
+      setFavorites(savedFavorites);
+    } else {
+      setFavorites([]);
+    }
+
+    setIsLoaded(true);
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    if (isLoaded && isAuthenticated) {
       localStorageUtils.saveFavorites(favorites);
     }
-  }, [favorites, isLoaded]);
+  }, [favorites, isLoaded, isAuthenticated]);
 
   const addFavorite = (psychologistId: string) => {
+    if (!isAuthenticated) return;
     setFavorites((prev) => {
       if (prev.includes(psychologistId)) return prev;
       return [...prev, psychologistId];
@@ -45,14 +54,17 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
   };
 
   const removeFavorite = (psychologistId: string) => {
+    if (!isAuthenticated) return;
     setFavorites((prev) => prev.filter((id) => id !== psychologistId));
   };
 
   const isFavorite = (psychologistId: string) => {
+    if (!isAuthenticated) return false;
     return favorites.includes(psychologistId);
   };
 
   const toggleFavorite = (psychologistId: string) => {
+    if (!isAuthenticated) return;
     if (isFavorite(psychologistId)) {
       removeFavorite(psychologistId);
     } else {

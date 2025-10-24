@@ -45,6 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setLoading(true);
     try {
       await loginUser(userData);
+      alert("Login successful!");
     } catch (error) {
       throw error;
     } finally {
@@ -56,6 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setLoading(true);
     try {
       await logoutUser();
+      alert("Logout successful!");
     } catch (error) {
       throw error;
     } finally {
