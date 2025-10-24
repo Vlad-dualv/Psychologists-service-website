@@ -5,32 +5,32 @@ import Image from "next/image";
 import { Star, Heart } from "lucide-react";
 import { Psychologist } from "@/lib/types";
 import { formatPrice } from "@/lib/utils";
+import { useAuth } from "@/context/AuthContext";
+import { useFavorites } from "@/context/FavoritesContext";
 
 interface PsychologistCardProps {
   psychologist: Psychologist;
-  isFavorite: boolean;
-  onToggleFavorite: (id: string) => void;
-  onMakeAppointment: (psychologist: Psychologist) => void;
-  isAuthenticated: boolean;
+  onMakeAppointment?: (psychologist: Psychologist) => void;
 }
 
 export default function PsychologistCard({
   psychologist,
-  isFavorite,
-  onToggleFavorite,
   onMakeAppointment,
-  isAuthenticated,
 }: PsychologistCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const { isAuthenticated } = useAuth();
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   const handleFavoriteClick = () => {
     if (!isAuthenticated) {
       alert("Please log in to add psychologists to favorites.");
       return;
     } else {
-      onToggleFavorite(psychologist.id);
+      toggleFavorite(psychologist.id);
     }
   };
+
+  const favorite = isFavorite(psychologist.id);
 
   return (
     <div className="bg-white rounded-[30px] p-6 flex flex-col md:flex-row gap-4 md:gap-6 tracking-normal max-md:text-sm relative">
@@ -66,11 +66,17 @@ export default function PsychologistCard({
           <button
             type="button"
             className={`absolute top-4 right-4 ${
-              isFavorite ? "fill-inherit" : "fill-brand-green"
+              favorite ? "fill-inherit" : "fill-brand-green"
             }`}
+            aria-label={favorite ? "Remove from favorites" : "Add to favorites"}
             onClick={handleFavoriteClick}
           >
-            <Heart size={23} />
+            <Heart
+              size={23}
+              className={`transition-colors ${
+                favorite ? "fill-brand-green text-brand-green" : "text-black"
+              }`}
+            />
           </button>
         </div>
         <h3 className="text-lg font-medium">{psychologist.name}</h3>
