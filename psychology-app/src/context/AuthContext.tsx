@@ -35,7 +35,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await registerUser(userData);
     } catch (error) {
-      setLoading(false);
       throw error;
     } finally {
       setLoading(false);
@@ -47,7 +46,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await loginUser(userData);
     } catch (error) {
-      setLoading(false);
       throw error;
     } finally {
       setLoading(false);
@@ -59,7 +57,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await logoutUser();
     } catch (error) {
-      setLoading(false);
       throw error;
     } finally {
       setLoading(false);

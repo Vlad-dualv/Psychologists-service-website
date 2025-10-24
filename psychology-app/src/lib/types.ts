@@ -48,14 +48,6 @@ export type AppointmentFormData = {
   psychologistName: string;
 };
 
-export interface AuthContextType {
-  user: UserProfile | null;
-  loading: boolean;
-  signUp: (data: AuthFormData) => Promise<void>;
-  signIn: (data: AuthFormData) => Promise<void>;
-  signOut: () => Promise<void>;
-}
-
 export type SortOption =
   | "name-asc"
   | "name-desc"

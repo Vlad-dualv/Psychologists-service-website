@@ -40,6 +40,14 @@ export default function Header() {
     };
   }, [isMobileMenuOpen]);
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
+
   return (
     <>
       <header className="w-full py-2 md:py-6 border-b border-b-[#cccccc] sticky top-0 z-50 bg-brand-white">
@@ -107,9 +115,7 @@ export default function Header() {
                   </div>
                   <button
                     type="button"
-                    onClick={() => {
-                      logout();
-                    }}
+                    onClick={handleLogout}
                     className="border border-gray-300 px-4 py-2 rounded-[30px] hover:bg-slate-100 transition duration-300 ease-in-out"
                   >
                     Logout
@@ -182,10 +188,7 @@ export default function Header() {
                 </div>
                 <button
                   type="button"
-                  onClick={() => {
-                    logout();
-                    setIsMobileMenuOpen(false);
-                  }}
+                  onClick={handleLogout}
                   className="w-full border border-gray-300 px-6 py-3 rounded-[30px] hover:bg-slate-100 transition text-lg font-medium"
                 >
                   Logout
