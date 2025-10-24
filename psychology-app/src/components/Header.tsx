@@ -108,15 +108,20 @@ export default function Header() {
 
             <div className="hidden md:block">
               {isAuthenticated ? (
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2">
-                    <UserRound size={20} />
-                    <span>{user?.displayName || "User"}</span>
+                <div className="flex items-center gap-7">
+                  <div className="hidden xl:flex items-center gap-2">
+                    <UserRound
+                      size={30}
+                      className="bg-brand-green text-brand-white p-1 rounded-[10px]"
+                    />
+                    <span className="font-medium text-base">
+                      {user?.displayName?.slice(0, 9) || "User"}
+                    </span>
                   </div>
                   <button
                     type="button"
                     onClick={handleLogout}
-                    className="border border-gray-300 px-4 py-2 rounded-[30px] hover:bg-slate-100 transition duration-300 ease-in-out"
+                    className="font-medium text-base border border-gray-300 px-10 py-3 rounded-[30px] hover:bg-slate-100 transition duration-300 ease-in-out"
                   >
                     Logout
                   </button>
