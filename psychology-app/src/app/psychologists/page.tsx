@@ -6,13 +6,11 @@ import { Psychologist, SortOption } from "@/lib/types";
 import { fetchAllPsychologists } from "@/lib/firebase";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { RingLoader } from "react-spinners";
 import Loader from "@/components/ui/Loader";
 
 export default function PsychologistsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [allPsychologists, setAllPsychologists] = useState<Psychologist[]>([]);
   const [itemsToShow, setItemsToShow] = useState<number>(3);
   const [displayedPsychologists, setDisplayedPsychologists] = useState<
