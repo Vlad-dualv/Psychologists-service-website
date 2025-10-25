@@ -6,9 +6,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import { Psychologist } from "@/lib/types";
 import PsychologistCard from "@/components/cards/PsychologistCard";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { set } from "firebase/database";
-import { fetchFavoritePsychologists } from "@/lib/firebase";
+import { fetchPsychologist } from "@/lib/firebase";
 import Loader from "@/components/ui/Loader";
 
 function FavoritesPageContent() {
@@ -19,7 +17,6 @@ function FavoritesPageContent() {
   >([]);
   const { user } = useAuth();
   const { favorites } = useFavorites();
-  const router = useRouter();
 
   useEffect(() => {
     async function loadFavorites() {
@@ -30,9 +27,16 @@ function FavoritesPageContent() {
           setFavoritePsychologists([]);
           return;
         }
-        const data = await fetchFavoritePsychologists(favorites);
-        setFavoritePsychologists(data);
-        console.log("Loaded favorite psychologists:", data);
+        const psychologistsPromises = favorites.map((id) =>
+          fetchPsychologist(id)
+        );
+        const data = await Promise.all(psychologistsPromises);
+        const flattenedData = data.flat();
+        const validPsychologists = flattenedData.filter(
+          (p) => p !== null
+        ) as Psychologist[];
+        setFavoritePsychologists(validPsychologists);
+        console.log("Loaded favorite psychologists:", validPsychologists);
       } catch (error) {
         console.error("Error loading favorite psychologists:", error);
         setError("Failed to load your favorite psychologists");
@@ -49,7 +53,7 @@ function FavoritesPageContent() {
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-8 text-left">
-      <h1 className="text-2xl font-semibold mb-4">My Favorites</h1>
+      <h1 className="text-2xl font-semibold mb-4">Favorites</h1>
       {user ? (
         favorites.length > 0 ? (
           <ul>
