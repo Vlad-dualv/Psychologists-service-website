@@ -8,6 +8,7 @@ import {
 import Image from "next/image";
 import Loader from "../ui/Loader";
 import { Psychologist } from "@/lib/types";
+import { log } from "console";
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -20,15 +21,15 @@ export default function AppointmentModal({
   onClose,
   psychologist,
 }: AppointmentModalProps) {
-  const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<AppointmentFormData>({
     resolver: yupResolver(appointmentSchema),
   });
@@ -48,4 +49,41 @@ export default function AppointmentModal({
       document.body.style.overflow = "unset";
     };
   }, [isOpen]);
+
+  function handleClose() {
+    if (isSubmitting) return;
+    reset();
+    setSubmitError(null);
+    setSubmitSuccess(false);
+    onClose();
+  }
+
+  function handleBackdropClick(e: React.MouseEvent<HTMLDivElement>) {
+    if (e.target === e.currentTarget) {
+      handleClose();
+    }
+  }
+
+  async function onSubmit(data: AppointmentFormData) {
+    try {
+      setIsSubmitting(true);
+      setSubmitError(null);
+      console.log("Appointment data:", {
+        ...data,
+        psychologistId: psychologist.id,
+        psychologistName: psychologist.name,
+      });
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      setSubmitSuccess(true);
+      setTimeout(() => {
+        handleClose();
+      }, 2000);
+    } catch (error) {
+      console.error("Error booking appointment:", error);
+      setSubmitError("An error occurred while booking the appointment.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+  if (!isOpen) return null;
 }
