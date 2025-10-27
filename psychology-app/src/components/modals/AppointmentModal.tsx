@@ -8,7 +8,6 @@ import {
 import Image from "next/image";
 import Loader from "../ui/Loader";
 import { Psychologist } from "@/lib/types";
-import { log } from "console";
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -86,4 +85,27 @@ export default function AppointmentModal({
     }
   }
   if (!isOpen) return null;
+
+  return (
+    <div>
+      <div>
+        <div>
+          <h2>Make an appointment with a psychologist</h2>
+          <p>
+            You are on the verge of changing your life for the better. Fill out
+            the short form below to book your personal appointment with a
+            professional psychologist. We guarantee confidentiality and respect
+            for your privacy.
+          </p>
+        </div>
+        <div>
+          <Image src={psychologist.avatar_url} alt={psychologist.name} />
+          <div>
+            <p>Your psychologist</p>
+            <p>{psychologist.name}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
