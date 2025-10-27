@@ -36,7 +36,6 @@ function FavoritesPageContent() {
           (p) => p !== null
         ) as Psychologist[];
         setFavoritePsychologists(validPsychologists);
-        console.log("Loaded favorite psychologists:", validPsychologists);
       } catch (error) {
         console.error("Error loading favorite psychologists:", error);
         setError("Failed to load your favorite psychologists");

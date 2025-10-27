@@ -43,6 +43,7 @@ export default function Header() {
   const handleLogout = async () => {
     try {
       await logout();
+      setShowLoginModal(true);
     } catch (error) {
       console.error("Logout error:", error);
     }
