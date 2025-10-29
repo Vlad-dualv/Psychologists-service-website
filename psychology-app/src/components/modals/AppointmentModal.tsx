@@ -9,6 +9,7 @@ import Image from "next/image";
 import Loader from "../ui/Loader";
 import { Psychologist } from "@/lib/types";
 import { Clock } from "lucide-react";
+import { X } from "lucide-react";
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -21,7 +22,6 @@ export default function AppointmentModal({
   onClose,
   psychologist,
 }: AppointmentModalProps) {
-  /*
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -87,7 +87,6 @@ export default function AppointmentModal({
     }
   }
   if (!isOpen) return null;
-  */
 
   const timeSlots = [
     { value: "09:00", label: "09 : 00" },
@@ -114,18 +113,30 @@ export default function AppointmentModal({
   ];
 
   return (
-    <div>
-      <div>
-        <div>
-          <h2>Make an appointment with a psychologist</h2>
-          <p>
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center w-full mx-auto bg-black bg-opacity-50 backdrop-blur-sm"
+      onClick={handleBackdropClick}
+    >
+      <div className="relative bg-brand-white py-10 md:py-16 px-6 md:px-16 rounded-[30px] w-[90%] max-w-[600px] text-left flex flex-col gap-5 md:gap-10">
+        <button
+          type="button"
+          className="absolute top-2 right-3 md:top-5 md:right-5 cursor-pointer"
+          onClick={handleClose}
+        >
+          <X size={32} />
+        </button>
+        <div className="flex flex-col gap-5">
+          <h2 className="font-medium text-2xl md:text-4xl tracking-tight">
+            Make an appointment with a psychologist
+          </h2>
+          <p className="text-brand-grey text-sm md:text-base tracking-normal leading-5">
             You are on the verge of changing your life for the better. Fill out
             the short form below to book your personal appointment with a
             professional psychologist. We guarantee confidentiality and respect
             for your privacy.
           </p>
         </div>
-        <div>
+        <div className="flex gap-3">
           <Image
             src="https://ftp.goit.study/img/avatars/23.jpg"
             alt="Sara Davis"
@@ -133,35 +144,58 @@ export default function AppointmentModal({
             height={44}
           />
           <div>
-            <p>Your psychologist</p>
-            <p>Sara Davis</p>
+            <p className="text-brand-grey font-medium text-[12px] tracking-normal">
+              Your psychologist
+            </p>
+            <p className="font-medium text-base tracking-normal">Sara Davis</p>
           </div>
-          <form>
-            <input type="text" placeholder="Name" />
-            <div>
-              <input type="text" placeholder="+380" />
-              <div className="relative">
-                <select
-                  name="meetingTime"
-                  id="meetingTime"
-                  defaultValue="00:00"
-                  className="appearance-none"
-                >
-                  <option value="00:00" disabled></option>
-                  {timeSlots.map((slot) => (
-                    <option key={slot.value} value={slot.value}>
-                      {slot.label}
-                    </option>
-                  ))}
-                </select>
-                <Clock size={20} className="absolute" />
-              </div>
-            </div>
-            <input type="email" placeholder="Email" />
-            <textarea placeholder="Comment" rows={5} className="resize-none" />
-            <button type="submit">Send</button>
-          </form>
         </div>
+        <form className="flex flex-col gap-2 md:gap-4">
+          <input
+            type="text"
+            placeholder="Name"
+            className="w-full placeholder:text-black text-sm md:text-base placeholder:text-sm md:placeholder:text-base p-2 md:p-4 border border-brand-lightGrey rounded-lg"
+          />
+          <div>
+            <input
+              type="text"
+              placeholder="+380"
+              className="w-full placeholder:text-black text-sm md:text-base placeholder:text-sm md:placeholder:text-base p-2 md:p-4 border border-brand-lightGrey rounded-lg"
+            />
+            <div className="relative">
+              <select
+                name="meetingTime"
+                id="meetingTime"
+                defaultValue="00:00"
+                className="appearance-none"
+              >
+                <option value="00:00" disabled>
+                  00:00
+                </option>
+                <option value="title" disabled>
+                  Meeting time
+                </option>
+                {timeSlots.map((slot) => (
+                  <option key={slot.value} value={slot.value}>
+                    {slot.label}
+                  </option>
+                ))}
+              </select>
+              <Clock size={20} className="absolute pointer-events-none" />
+            </div>
+          </div>
+          <input
+            type="email"
+            placeholder="Email"
+            className="w-full placeholder:text-black text-sm md:text-base placeholder:text-sm md:placeholder:text-base p-2 md:p-4 border border-brand-lightGrey rounded-lg"
+          />
+          <textarea
+            placeholder="Comment"
+            rows={3}
+            className="resize-none w-full placeholder:text-black text-sm md:text-base placeholder:text-sm md:placeholder:text-base p-2 md:p-4 border border-brand-lightGrey rounded-lg"
+          />
+          <button type="submit">Send</button>
+        </form>
       </div>
     </div>
   );
