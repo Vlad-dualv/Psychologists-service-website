@@ -7,6 +7,7 @@ import { fetchAllPsychologists } from "@/lib/firebase";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import Loader from "@/components/ui/Loader";
+import AppointmentModal from "@/components/modals/AppointmentModal";
 
 export default function PsychologistsPage() {
   const [loading, setLoading] = useState(true);
@@ -81,6 +82,7 @@ export default function PsychologistsPage() {
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-8 text-left">
+      <AppointmentModal isOpen={true} onClose={() => {}} />
       {/* ===== Filters ===== */}
       <div className="mt-2 md:mt-8 mb-8">
         <label

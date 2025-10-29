@@ -8,6 +8,7 @@ import {
 import Image from "next/image";
 import Loader from "../ui/Loader";
 import { Psychologist } from "@/lib/types";
+import { Clock } from "lucide-react";
 
 interface AppointmentModalProps {
   isOpen: boolean;
@@ -20,6 +21,7 @@ export default function AppointmentModal({
   onClose,
   psychologist,
 }: AppointmentModalProps) {
+  /*
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -85,6 +87,31 @@ export default function AppointmentModal({
     }
   }
   if (!isOpen) return null;
+  */
+
+  const timeSlots = [
+    { value: "09:00", label: "09 : 00" },
+    { value: "09:30", label: "09 : 30" },
+    { value: "10:00", label: "10 : 00" },
+    { value: "10:30", label: "10 : 30" },
+    { value: "11:00", label: "11 : 00" },
+    { value: "11:30", label: "11 : 30" },
+    { value: "12:00", label: "12 : 00" },
+    { value: "12:30", label: "12 : 30" },
+    { value: "13:00", label: "13 : 00" },
+    { value: "13:30", label: "13 : 30" },
+    { value: "14:00", label: "14 : 00" },
+    { value: "14:30", label: "14 : 30" },
+    { value: "15:00", label: "15 : 00" },
+    { value: "15:30", label: "15 : 30" },
+    { value: "16:00", label: "16 : 00" },
+    { value: "16:30", label: "16 : 30" },
+    { value: "17:00", label: "17 : 00" },
+    { value: "17:30", label: "17 : 30" },
+    { value: "18:00", label: "18 : 00" },
+    { value: "18:30", label: "18 : 30" },
+    { value: "19:00", label: "19 : 00" },
+  ];
 
   return (
     <div>
@@ -99,11 +126,41 @@ export default function AppointmentModal({
           </p>
         </div>
         <div>
-          <Image src={psychologist.avatar_url} alt={psychologist.name} />
+          <Image
+            src="https://ftp.goit.study/img/avatars/23.jpg"
+            alt="Sara Davis"
+            width={44}
+            height={44}
+          />
           <div>
             <p>Your psychologist</p>
-            <p>{psychologist.name}</p>
+            <p>Sara Davis</p>
           </div>
+          <form>
+            <input type="text" placeholder="Name" />
+            <div>
+              <input type="text" placeholder="+380" />
+              <div className="relative">
+                <select
+                  name="meetingTime"
+                  id="meetingTime"
+                  defaultValue="00:00"
+                  className="appearance-none"
+                >
+                  <option value="00:00" disabled></option>
+                  {timeSlots.map((slot) => (
+                    <option key={slot.value} value={slot.value}>
+                      {slot.label}
+                    </option>
+                  ))}
+                </select>
+                <Clock size={20} className="absolute" />
+              </div>
+            </div>
+            <input type="email" placeholder="Email" />
+            <textarea placeholder="Comment" rows={5} className="resize-none" />
+            <button type="submit">Send</button>
+          </form>
         </div>
       </div>
     </div>

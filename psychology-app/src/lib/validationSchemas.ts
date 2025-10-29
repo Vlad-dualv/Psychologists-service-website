@@ -31,9 +31,7 @@ export const appointmentSchema = Yup.object().shape({
     .min(10, "Comment must be at least 10 characters")
     .max(500, "Comment must be less than 500 characters")
     .required("Comment is required"),
-  time: Yup.string()
-    .matches(/^([01]\d|2[0-3]):([0-5]\d)$/, "Invalid time format (HH:mm)")
-    .required("Time is required"),
+  meetingTime: Yup.string().required("Please select a meeting time"),
 });
 
 export type RegisterFormData = Yup.InferType<typeof registerSchema>;
